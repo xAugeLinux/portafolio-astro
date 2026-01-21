@@ -1,0 +1,447 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import "../styles/home.css";
+import "../styles/posts.css";
+import "../styles/page-transitions.css";
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+import { siteConfig } from "../config/site";
+import { postImages, defaultPostImage } from "../config/posts-images";
+
+// Obtener todas las publicaciones de la colección de contenido
+const allPosts = (await getCollection("posts")) as CollectionEntry<"posts">[];
+
+// Convertir el formato de fecha de "27/06/2025" a "27 de junio de 2025"
+function formatDate(dateString: string): string {
+  const [month, day, year] = dateString.split("/");
+  const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
+// Extraer texto sin formato del contenido de Markdown
+function extractExcerptFromMarkdown(
+  content: string,
+  maxLength: number = 300
+): string {
+  // Eliminar la sintaxis de Markdown
+  let text = content
+    .replace(/^#+\s+/gm, "") // Eliminar encabezados
+    .replace(/\[([^\]]+)\]\([^\)]+\)/g, "$1") // Eliminar enlaces, mantener texto
+    .replace(/\*\*([^\*]+)\*\*/g, "$1") // Eliminar negrita
+    .replace(/\*([^\*]+)\*/g, "$1") // Eliminar cursiva
+    .replace(/`([^`]+)`/g, "$1") // Eliminar código en línea
+    .replace(/```[\s\S]*?```/g, "") // Eliminar bloques de código
+    .replace(/\n+/g, " ") // Reemplazar saltos de línea con espacio
+    .trim();
+
+  // Obtener los primeros caracteres de longitud máxima
+  if (text.length > maxLength) {
+    text = text.substring(0, maxLength);
+    // Intenta cortar en el límite de una oración o palabra
+    const lastPeriod = text.lastIndexOf(".");
+    const lastSpace = text.lastIndexOf(" ");
+    const cutPoint = lastPeriod > maxLength * 0.7 ? lastPeriod + 1 : lastSpace;
+    if (cutPoint > maxLength * 0.7) {
+      text = text.substring(0, cutPoint);
+    }
+    text += "...";
+  }
+
+  return text;
+}
+
+// Transformar las publicaciones de la colección de contenido para que coincidan con el formato esperado
+const posts = await Promise.all(
+  allPosts.map(async (post: any) => {
+    // Obtener el slug de la publicación - probar varias alternativas
+    // En Astro, post.slug debería estar disponible, pero si no, extraer del id
+    let slug = post.slug;
+    if (!slug && post.id) {
+      // Extraer el slug del id (p. ej., "posts/my-post.md" -> "my-post")
+      slug = post.id.split("/").pop()?.replace(/\.md$/, "") || "";
+    }
+    if (!slug) {
+      console.warn("Post missing slug:", post);
+    }
+
+    // Intenta obtener primero un extracto del frontmatter
+    let excerpt = post.data.excerpt;
+
+    // Si no hay un extracto en la portada, genere un extracto predeterminado a partir del título
+    if (!excerpt) {
+      // En Astro 6.0, post.body ya no está disponible.
+      // Usar un extracto predeterminado basado en el título o proporcionar un mensaje genérico.
+      excerpt = `Read more about ${post.data.title}...`;
+    }
+
+    // Obtener la imagen del frontmatter, recurrir al mapeo y luego al valor predeterminado
+    const image = post.data.image || postImages[slug] || defaultPostImage;
+
+    return {
+      id: slug,
+      date: formatDate(post.data.date),
+      title: post.data.title,
+      tags: post.data.tags || [],
+      excerpt: excerpt,
+      readTime: post.data.readTime || "5 min read",
+      slug: slug,
+      image: image,
+    };
+  })
+);
+
+// Ordenar por fecha (más reciente primero)
+posts.sort((a, b) => {
+  return new Date(b.date).getTime() - new Date(a.date).getTime();
+});
+
+// Agrupar publicaciones por fecha
+const groupedPosts = posts.reduce(
+  (acc, post) => {
+    if (!acc[post.date]) {
+      acc[post.date] = [];
+    }
+    acc[post.date].push(post);
+    return acc;
+  },
+  {} as Record<string, typeof posts>
+);
+
+// Extraer todas las etiquetas únicas de las publicaciones
+const allTags = Array.from(
+  new Set(posts.flatMap((post) => post.tags.map((tag: string) => tag)))
+).sort();
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Blog Posts - Astro Blog</title>
+    <script>
+      // Desactivar la restauración del desplazamiento del navegador y garantizar que la página comience en la parte superior
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+      // Desplácese inmediatamente hacia arriba al cargar la página
+      window.scrollTo(0, 0);
+    </script>
+  </head>
+  <body>
+    <Navigation />
+
+    <main class="posts-page">
+      <div class="posts-container page-content">
+        <div class="posts-header posts-header-animate">
+          <h1 class="posts-title">{siteConfig.posts.title}</h1>
+          <p class="posts-subtitle">{siteConfig.posts.subtitle}</p>
+        </div>
+
+        <div class="search-filter-section posts-content-animate">
+          <div class="search-box">
+            <input
+              type="text"
+              placeholder={siteConfig.posts.searchPlaceholder}
+              class="search-input"
+              id="search-input"
+            />
+            <svg
+              class="search-icon"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16z"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <path
+                d="m19 19-4.35-4.35"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </div>
+        </div>
+
+        <div class="tags-filter posts-content-animate">
+          <span class="tags-label">Filter by tags:</span>
+          <div class="tags-list">
+            {
+              allTags.map((tag) => (
+                <button
+                  class="tag-button"
+                  data-tag={tag.toLowerCase().replace(/\s+/g, "-")}
+                >
+                  {tag}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="posts-list posts-content-animate">
+          {
+            Object.entries(groupedPosts).map(([date, datePosts]) => (
+              <div class="date-group" data-date={date}>
+                <h2 class="date-header">{date}</h2>
+                <div class="date-card">
+                  {datePosts.map((post) => (
+                    <article class="post-item" data-post-id={post.slug}>
+                      <div class="post-summary">
+                        <div class="title-icon-left" />
+                        <h3 class="post-title">
+                          <a
+                            href={`/posts/${post.slug}`}
+                            class="post-title-link"
+                          >
+                            {post.title}
+                          </a>
+                          <div class="title-icon-right" />
+                        </h3>
+                        {post.tags.length > 0 && (
+                          <div class="post-tags">
+                            {post.tags.map((tag: string) => (
+                              <span class="post-tag">{tag}</span>
+                            ))}
+                          </div>
+                        )}
+                        <button
+                          class="post-toggle"
+                          aria-label="Toggle post details"
+                        >
+                          <span class="post-arrow">↓</span>
+                        </button>
+                      </div>
+                      <div class="post-details">
+                        <div class="post-content-wrapper">
+                          <div class="post-excerpt-wrapper">
+                            <p class="post-excerpt">{post.excerpt}</p>
+                            <div class="post-footer">
+                              <a
+                                href={`/posts/${post.slug}`}
+                                class="post-read-more"
+                              >
+                                Read more →
+                              </a>
+                              <span class="post-read-time">
+                                ⏱️ {post.readTime}
+                              </span>
+                            </div>
+                          </div>
+                          <div class="post-image-container">
+                            <img
+                              src={post.image}
+                              alt={post.title}
+                              class="post-image"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+  </body>
+</html>
+
+<script>
+  // Asegúrese de que la posición de desplazamiento esté en la parte superior después de cargar el DOM
+  document.addEventListener("DOMContentLoaded", () => {
+    window.scrollTo(0, 0);
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 0);
+  });
+  // Asegúrese también de que se muestre en la página (maneja la navegación hacia atrás/adelante)
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted) {
+      window.scrollTo(0, 0);
+    }
+  });
+
+  // Inicializar animaciones de transición de página
+  document.addEventListener("DOMContentLoaded", () => {
+    // Animación del contenido de la página de activación
+    const pageContent = document.querySelector(".page-content");
+    if (pageContent) {
+      requestAnimationFrame(() => {
+        pageContent.classList.add("visible");
+      });
+    }
+
+    // Animación del encabezado del disparador
+    const header = document.querySelector(".posts-header-animate");
+    if (header) {
+      requestAnimationFrame(() => {
+        header.classList.add("visible");
+      });
+    }
+
+    // Activar animaciones de contenido
+    const contentElements = document.querySelectorAll(".posts-content-animate");
+    contentElements.forEach((element) => {
+      requestAnimationFrame(() => {
+        element.classList.add("visible");
+      });
+    });
+  });
+
+  // Comportamiento de expansión/contraer de las publicaciones
+  const postToggles = document.querySelectorAll(".post-toggle");
+  const postSummaries = document.querySelectorAll(".post-summary");
+
+  postToggles.forEach((toggle) => {
+    toggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const postItem = toggle.closest(".post-item");
+      if (postItem) {
+        postItem.classList.toggle("expanded");
+        const arrow = toggle.querySelector(".post-arrow");
+        if (arrow) {
+          arrow.textContent = postItem.classList.contains("expanded")
+            ? "↑"
+            : "↓";
+        }
+      }
+    });
+  });
+
+  // Haga clic en la fila para expandir/contraer
+  postSummaries.forEach((summary) => {
+    summary.addEventListener("click", (e) => {
+      // Ignorar los clics en el enlace del título
+      if ((e.target as HTMLElement).closest(".post-title-link")) {
+        return;
+      }
+      // Ignore clicks on the toggle button
+      if ((e.target as HTMLElement).closest(".post-toggle")) {
+        return;
+      }
+
+      const postItem = summary.closest(".post-item");
+      if (postItem) {
+        postItem.classList.toggle("expanded");
+        const arrow = postItem.querySelector(".post-arrow");
+        if (arrow) {
+          arrow.textContent = postItem.classList.contains("expanded")
+            ? "↑"
+            : "↓";
+        }
+      }
+    });
+  });
+
+  // Filtro de búsqueda
+  const searchInput = document.getElementById("search-input");
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      const searchTerm = (e.target as HTMLInputElement).value.toLowerCase();
+      const postItems = document.querySelectorAll(".post-item");
+
+      postItems.forEach((item) => {
+        const title =
+          item.querySelector(".post-title a")?.textContent?.toLowerCase() || "";
+        const excerpt =
+          item.querySelector(".post-excerpt")?.textContent?.toLowerCase() || "";
+
+        if (title.includes(searchTerm) || excerpt.includes(searchTerm)) {
+          (item as HTMLElement).style.display = "block";
+        } else {
+          (item as HTMLElement).style.display = "none";
+        }
+      });
+
+      // Actualizar la visibilidad del grupo de fechas
+      const dateGroups = document.querySelectorAll(".date-group");
+      dateGroups.forEach((dateGroup) => {
+        const visibleItems = dateGroup.querySelectorAll(
+          '.post-item[style*="block"], .post-item:not([style*="none"])'
+        );
+        (dateGroup as HTMLElement).style.display =
+          visibleItems.length > 0 ? "block" : "none";
+      });
+    });
+  }
+
+  // Filtrado de etiquetas (selección múltiple)
+  const tagButtons = document.querySelectorAll(".tag-button");
+  const dateGroups = document.querySelectorAll(".date-group");
+
+  function applyFilters() {
+    // Recopilar etiquetas activas
+    const activeTags = Array.from(tagButtons)
+      .filter((btn) => btn.classList.contains("active"))
+      .map((btn) => btn.getAttribute("data-tag"))
+      .filter((tag): tag is string => tag !== null);
+
+    // Si no hay etiquetas activas, mostrar todo
+    if (activeTags.length === 0) {
+      dateGroups.forEach((dateGroup) => {
+        const postItems = dateGroup.querySelectorAll(".post-item");
+        postItems.forEach((item) => {
+          (item as HTMLElement).style.display = "block";
+        });
+        (dateGroup as HTMLElement).style.display = "block";
+      });
+      return;
+    }
+
+    // Filtrar publicaciones: mostrar aquellas que coincidan con cualquier etiqueta activa
+    dateGroups.forEach((dateGroup) => {
+      const postItems = dateGroup.querySelectorAll(".post-item");
+      let hasVisiblePosts = false;
+
+      postItems.forEach((item) => {
+        const postTags = Array.from(item.querySelectorAll(".post-tag")).map(
+          (tag) => tag.textContent?.toLowerCase().replace(/\s+/g, "-") || ""
+        );
+
+        // Verificar si la publicación tiene alguna etiqueta activa
+        const hasMatchingTag = activeTags.some((activeTag) =>
+          postTags.includes(activeTag)
+        );
+
+        if (hasMatchingTag) {
+          (item as HTMLElement).style.display = "block";
+          hasVisiblePosts = true;
+        } else {
+          (item as HTMLElement).style.display = "none";
+        }
+      });
+
+      // Ocultar el grupo de fechas cuando no hay publicaciones visibles
+      (dateGroup as HTMLElement).style.display = hasVisiblePosts
+        ? "block"
+        : "none";
+    });
+  }
+
+  tagButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      // Alternar estado activo
+      button.classList.toggle("active");
+
+      // Aplicar filtros
+      applyFilters();
+    });
+  });
+</script>

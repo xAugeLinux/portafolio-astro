@@ -1,0 +1,52 @@
+---
+import "../styles/home.css";
+import "../styles/page-transitions.css";
+import Navigation from "../components/Navigation.astro";
+import HeroSection from "../components/HeroSection.astro";
+import AboutSection from "../components/AboutSection.astro";
+import ProficiencySection from "../components/ProficiencySection.astro";
+import ProjectsSection from "../components/ProjectsSection.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro Blog</title>
+    <script>
+      // Desactivar la restauración del desplazamiento del navegador y garantizar que la página comience en la parte superior
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+      // Desplácese inmediatamente hacia arriba al cargar la página
+      window.scrollTo(0, 0);
+    </script>
+  </head>
+  <body>
+    <Navigation />
+    <HeroSection />
+    <AboutSection />
+    <ProjectsSection />
+    <ProficiencySection />
+    <Footer />
+    <script>
+      // Asegúrese de que la posición de desplazamiento esté en la parte superior después de cargar el DOM
+      document.addEventListener("DOMContentLoaded", () => {
+        window.scrollTo(0, 0);
+        // Asegúrese también de que después de un breve retraso se puedan gestionar los cambios de diseño.
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 0);
+      });
+      // Asegúrese también de que se muestre en la página (maneja la navegación hacia atrás/adelante)
+      window.addEventListener("pageshow", (event) => {
+        if (event.persisted) {
+          window.scrollTo(0, 0);
+        }
+      });
+    </script>
+  </body>
+</html>
