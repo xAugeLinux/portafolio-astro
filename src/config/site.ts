@@ -8,7 +8,7 @@ export const siteConfig = {
   // Navigation
   navigation: {
     home: "Inicio",
-    posts: "Posts",
+    posts: "Proyectos",
     contact: "Contacto",
     comments: "Comentarios",
   },
@@ -23,97 +23,97 @@ export const siteConfig = {
           " personales que he realizado a lo largo de mi carrera. " +
           " Espero que mi contenido sea de utilidad a otros" +
           " en su viaje de programación .",
-    avatar: "/image/20943608.jpeg",
+    avatar: "/image/img1.png",
     buttons: {
       viewPosts: "Ver proyectos",
       contactMe: "Contactarme",
     },
     socialLinks: [
-      { name: "Twitter", icon: "/svg/twitter.svg", url: "https://x.com/astrodotbuild" },
-      { name: "LinkedIn", icon: "/svg/linkedin.svg", url: "https://www.linkedin.com/company/astrodotbuild" },
-      { name: "Facebook", icon: "/svg/facebook.svg", url: "https://www.facebook.com/astrodotbuild" },
-      { name: "GitHub", icon: "/svg/github.svg", url: "https://github.com/tomcomtang/astro-cartoon-portfolio" },
+      { name: "Twitter", icon: "/svg/twitter.svg", url: " " },
+      { name: "LinkedIn", icon: "/svg/linkedin.svg", url: " " },
+      { name: "Facebook", icon: "/svg/facebook.svg", url: " " },
+      { name: "GitHub", icon: "/svg/github.svg", url: "https://github.com/xAugeLinux" },
     ],
   },
   
-  // About Section
+  // Acerca de mi Section
   about: {
-    title: "Acrerca de mi",
+    title: "Acerca de mi",
     text: "Hola, soy José, un desarrollador web. Me gusta " +
           "explorar nuevas tecnologías. " +
           "En este portafolio encontrarás mis proyectos "
   },
   
-  // Contact Page
+  // Pagina de Contacto
   contact: {
-    title: "Get In Touch",
-    subtitle: "I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.",
+    title: "Contacto",
+    subtitle: "Estoy siempre abierto a discutir nuevos proyectos, ideas creativas o oportunidades para formar parte de tus visiones.",
     info: {
       email: {
         label: "Email",
-        value: "tom@example.com",
-        link: "mailto:tom@example.com",
+        value: "jose@example.com",
+        link: "mailto:jose@example.com",
       },
       phone: {
-        label: "Phone",
-        value: "+1 (234) 567-890",
-        link: "tel:+1 (234) 567-890",
+        label: "Teléfono",
+        value: "+55 783 567-890",
+        link: "tel:+55 783 567-890",
       },
       location: {
-        label: "Location",
-        value: "San Francisco, CA",
+        label: "Ubicación",
+        value: "Hidalgo, México",
       },
     },
     followMe: {
-      title: "Follow Me",
+      title: "Sigueme en las redes sociales",
       links: [
-        { name: "Twitter", icon: "/svg/twitter.svg", url: "https://x.com/astrodotbuild" },
-        { name: "LinkedIn", icon: "/svg/linkedin.svg", url: "https://www.linkedin.com/company/astrodotbuild" },
-        { name: "Facebook", icon: "/svg/facebook.svg", url: "https://www.facebook.com/astrodotbuild" },
-        { name: "GitHub", icon: "/svg/github.svg", url: "https://github.com/tomcomtang/astro-cartoon-portfolio" },
+        { name: "Twitter", icon: "/svg/twitter.svg", url: " " },
+        { name: "LinkedIn", icon: "/svg/linkedin.svg", url: " " },
+        { name: "Facebook", icon: "/svg/facebook.svg", url: " " },
+        { name: "GitHub", icon: "/svg/github.svg", url: " " },
       ],
     },
     footerText: [
-      "I typically respond to messages within 24 hours during business days.",
-      "Looking forward to hearing from you! 🚀",
+      "Suelo responder a los mensajes dentro de las 24 horas hábiles.",
+      "Espero poder hablar contigo pronto!",
     ],
-    messageButton: "💬 Leave a Message",
+    messageButton: "💬 Deja un mensaje",
   },
   
   // Footer
   footer: {
     copyright: "© 2025 Someone. All rights reserved.",
     links: [
-      { text: "Privacy Policy", url: "#" },
-      { text: "Terms of Service", url: "#" },
+      { text: "Politica de Privacidad", url: "#" },
+      { text: "Terminos de Servicio", url: "#" },
       { text: "Sitemap", url: "#" },
     ],
     github: {
-      text: "Star this project on Github",
+      text: "Iniciar este proyecto en GitHub",
       url: "https://github.com/tomcomtang/astro-cartoon-portfolio",
     },
   },
   
-  // Posts Page
+  // Pagiana de Proyectos
   posts: {
-    title: "Blog Posts",
-    subtitle: "Explore our latest articles on web development, design, and technology",
-    searchPlaceholder: "Search posts...",
+    title: "Blog de Proyectos",
+    subtitle: "Explora mis proyectos personales, donde comparto mis experiencias, aprendizajes y desafíos en el desarrollo web.",
+    searchPlaceholder: "Buscar proyectos...",
   },
   
-  // Comments Page
+  // Pagina de Comentarios
   comments: {
-    title: "Comments & Discussion",
-    subtitle: "Share your thoughts, questions, or suggestions here. Let's connect and discuss!",
+    title: "Comentarios y Discusión",
+    subtitle: "Comparte tus pensamientos, preguntas o sugerencias aquí. ¡Conectemos y discutamos!",
     guidelines: {
-      title: "Community Guidelines",
+      title: "Normas de la Comunidad",
       items: [
-        "Be respectful and constructive in your comments",
-        "No spam, self-promotion, or advertising allowed",
-        "No personal attacks, hate speech, or harassment",
-        "Stay on topic and keep discussions relevant",
-        "No inappropriate, offensive, or illegal content",
-        "Use clear, friendly, and inclusive language",
+        "Sé respetuoso y constructivo en tus comentarios",
+        "Nadie es perfecto; todos estamos aquí para aprender",
+        "Nada de spam o autopromoción, ataques ni enlaces irrelevantes",
+        "Mantén la privacidad y seguridad de todos",
+        "Nada de contenido inapropiado, ofensivo o ilegal",
+        "Usar un lenguaje respetuoso y apropiado",
       ],
     },
   },

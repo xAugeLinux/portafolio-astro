@@ -1,4 +1,4 @@
-// Projects configuration
+//Configuración de proyectos
 export const projectsConfig = {
   images: [
     "/svg/project1.svg",
@@ -14,81 +14,81 @@ export const projectsConfig = {
   ],
   projects: [
     {
-      title: "E-Commerce Platform",
+      title: "Plataforma de Comercio Electrónico",
       description:
-        "A full-stack e-commerce platform built with React, Node.js, and MongoDB. Features include user authentication, product management, shopping cart, and payment integration.",
+        "Una plataforma de comercio electrónico completa con carrito de compras, pasarela de pago y gestión de inventario para pequeñas y medianas empresas.",
       technologies: ["React", "Node.js", "MongoDB", "Stripe"],
       liveLink: "#",
       githubLink: "#",
     },
     {
-      title: "Task Management App",
+      title: "Aplicación de Gestión de Tareas",
       description:
-        "A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features for enhanced productivity.",
+        "Una aplicación colaborativa de gestión de tareas con actualizaciones en tiempo real, funcionalidad de arrastrar y soltar, y características de colaboración en equipo para mejorar la productividad.",
       technologies: ["Vue.js", "Firebase", "Vuex", "Vuetify"],
       liveLink: "#",
       githubLink: "#",
     },
     {
-      title: "Portfolio Website",
+      title: "Portafolio Personal",
       description:
-        "A modern, responsive portfolio website built with Astro and styled-components. Features smooth animations and SEO optimization for better visibility.",
+        "Un sitio web de portafolio moderno y responsive construido con Astro y styled-components. Incluye animaciones suaves y optimización SEO para una mejor visibilidad.",
       technologies: ["Astro", "Styled-components", "TypeScript", "Netlify"],
       liveLink: "#",
       githubLink: "#",
     },
     {
-      title: "Social Media Dashboard",
+      title: "Dashboard de Análisis de Redes Sociales",
       description:
-        "A comprehensive social media analytics dashboard with real-time data visualization, engagement metrics, and content scheduling features for businesses.",
+        "Un dashboard completo de análisis de redes sociales con visualización de datos en tiempo real, métricas de compromiso y características de programación de contenido para empresas.",
       technologies: ["React", "TypeScript", "Chart.js", "REST API"],
       liveLink: "#",
       githubLink: "#",
     },
     {
-      title: "Fitness Tracking App",
+      title: "Aplicación de Seguimiento de Fitness",
       description:
-        "A mobile-first fitness tracking application with workout plans, progress tracking, and social sharing capabilities to help users stay motivated.",
+        "Una aplicación móvil centrada en el fitness con planes de ejercicios, seguimiento de progreso y capacidades de compartir socialmente para ayudar a los usuarios a mantenerse motivados.",
       technologies: ["React Native", "Firebase", "Redux", "Expo"],
       liveLink: "#",
       githubLink: "#",
     },
     {
-      title: "Recipe Sharing Platform",
+      title: "Plataforma de Compartir Recetas",
       description:
-        "An interactive recipe sharing platform where users can discover, create, and share their favorite recipes with the community worldwide.",
+        "Una plataforma interactiva de compartir recetas donde los usuarios pueden descubrir, crear y compartir sus recetas favoritas con la comunidad mundial.",
       technologies: ["Next.js", "PostgreSQL", "Prisma", "AWS"],
       liveLink: "#",
       githubLink: "#",
     },
     {
-      title: "E-Learning Platform",
+      title: "Plataforma de Educación en Línea",
       description:
-        "A comprehensive e-learning platform with video courses, interactive quizzes, progress tracking, and certificate generation for online education.",
+        "Una plataforma de educación en línea completa con cursos de video, cuestionarios interactivos, seguimiento del progreso y generación de certificados para educación en línea.",
       technologies: ["React", "Node.js", "MongoDB", "Stripe"],
       liveLink: "#",
       githubLink: "#",
     },
     {
-      title: "Weather Forecast App",
+      title: "Aplicación de Pronóstico del Clima",
       description:
-        "A beautiful weather forecast application with location-based forecasts, detailed weather maps, and customizable widgets for accurate weather information.",
+        "Una hermosa aplicación de pronóstico del clima con pronósticos basados en la ubicación, mapas meteorológicos detallados y widgets personalizables para información meteorológica precisa.",
       technologies: ["Vue.js", "OpenWeather API", "Chart.js", "PWA"],
       liveLink: "#",
       githubLink: "#",
     },
     {
-      title: "Music Streaming Service",
+      title: "Servicio de Streaming Musical",
       description:
-        "A modern music streaming platform with personalized playlists, social features, and high-quality audio streaming for music enthusiasts worldwide.",
+        "Una plataforma moderna de streaming musical con listas de reproducción personalizadas, funciones sociales y streaming de audio de alta calidad para entusiastas musicales en todo el mundo.",
       technologies: ["React", "Node.js", "PostgreSQL", "AWS S3"],
       liveLink: "#",
       githubLink: "#",
     },
     {
-      title: "Project Management Tool",
+      title: "Herramienta de Gestión de Proyectos",
       description:
-        "An advanced project management tool with Gantt charts, team collaboration, time tracking, and comprehensive reporting for efficient project delivery.",
+        "Una herramienta avanzada de gestión de proyectos con gráficos de Gantt, colaboración en equipo, seguimiento del tiempo y reportes completos para una entrega de proyectos eficiente.",
       technologies: ["Angular", "NestJS", "PostgreSQL", "Docker"],
       liveLink: "#",
       githubLink: "#",

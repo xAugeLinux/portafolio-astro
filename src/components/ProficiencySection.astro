@@ -3,7 +3,7 @@
 
 <section class="proficiency-section" id="proficiency-section">
   <div class="proficiency-content">
-    <h2 class="proficiency-title">Proficiency</h2>
+    <h2 class="proficiency-title">Conocimiento de Lenguajes de Programación</h2>
     <div class="skills-grid">
       <div class="skill-card" data-percentage="95">
         <div class="skill-name skill-name-1">React</div>
@@ -100,7 +100,7 @@
         </div>
       </div>
       <div class="skill-card" data-percentage="88">
-        <div class="skill-name skill-name-3">TypeScript</div>
+        <div class="skill-name skill-name-3">Python 3</div>
         <div class="circular-progress">
           <svg class="progress-ring" width="180" height="180">
             <circle
@@ -147,7 +147,7 @@
         </div>
       </div>
       <div class="skill-card" data-percentage="85">
-        <div class="skill-name skill-name-4">Vue.js</div>
+        <div class="skill-name skill-name-4">Vite.js</div>
         <div class="circular-progress">
           <svg class="progress-ring" width="180" height="180">
             <circle
@@ -292,7 +292,7 @@
 </section>
 
 <script>
-  // Number animation: count from 0 to target
+  //Animación de numeros
   function animateNumber(
     element: HTMLElement,
     target: number,
@@ -305,7 +305,7 @@
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
 
-    // Ease-out function
+    // Función de ease-out
       const easeOutQuart = 1 - Math.pow(1 - progress, 4);
       const current = Math.floor(start + (target - start) * easeOutQuart);
 
@@ -321,7 +321,7 @@
     requestAnimationFrame(update);
   }
 
-  // Circular progress animation
+  // Animación de progreso circular
   function animateCircularProgress(
     circle: SVGCircleElement,
     percentage: number,
@@ -337,7 +337,7 @@
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
 
-    // Ease-out function
+    // Función de ease-out
       const easeOutQuart = 1 - Math.pow(1 - progress, 4);
       const currentPercentage = percentage * easeOutQuart;
       const currentOffset =
@@ -358,7 +358,7 @@
     requestAnimationFrame(update);
   }
 
-  // Use Intersection Observer to trigger on scroll
+  // Uso de Intersection Observer para activar animaciones al entrar en vista
   const proficiencySection = document.getElementById("proficiency-section");
   let hasAnimated = false;
 
@@ -369,7 +369,7 @@
           if (entry.isIntersecting && !hasAnimated) {
             hasAnimated = true;
 
-            // Get all skill cards
+            // Obtener todas las tarjetas de habilidades
             const skillCards =
               proficiencySection.querySelectorAll(".skill-card");
 
@@ -386,19 +386,19 @@
                 );
 
                 if (percentageElement && progressCircle) {
-                  // Start number animation
+                  // Iniciar animación de número
                   animateNumber(percentageElement, percentage);
 
-                  // Start circular progress animation
+                  // Iniciar animación de progreso circular
                   animateCircularProgress(progressCircle, percentage);
                 }
-              }, index * 150); // Stagger each skill by 150ms
+              }, index * 150); // 150ms de retraso entre cada tarjeta
             });
           }
         });
       },
       {
-        threshold: 0.3, // Trigger when 30% is visible
+        threshold: 0.3, // Iniciar la animación cuando el 30% de la sección esté visible
       }
     );
 
